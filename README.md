@@ -58,43 +58,58 @@ custOpt := opt.None[CustomType]()
 ```go
 package main
 
-import "github.com/iUwej/go-opt"
-
-
+import (
+	"fmt"
+	"github.com/iUwej/go-opt"
+	"math/rand"
+	"time"
+)
 
 type User struct {
-	Id     int64
-	Name   string
-	Emails []string
+	Id   string
+	Name string
 }
 
-func FindUser(id string)opt.Option[User]  {
-	user := User{
-		Id : id,
-		Name:   "admin",
-		Emails: []string{"admin1@admin", "admin2@admin"},
-	}
-	if true{
+func FindUser(id string) opt.Option[User] {
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	val := r1.Intn(100)
+	if val%2 == 0 {
+		user := User{
+			Id:   id,
+			Name: "Some Name",
+		}
+
 		return opt.Some(user)
-    } else{
-		return opt.None[User]()
-    }
-	
+	}
+	return opt.None[User]()
+
 }
 
 func main() {
-    userOpt := FindUser("some_id")
-	// check if user present
-	if userOpt.Empty(){
-		//do something if userOpt is empty
-    }
-	// get the user if present or provide a default
-	user := userOpt.GetOrElse(User{id:"back_up",Name: "Some Name"})
-	
-	//map the optional user into an optional name
+
+	userOpt := FindUser("some_id")
+	if userOpt.Empty() {
+		// do something about the missing user
+	} else {
+		user := userOpt.Get()
+		fmt.Println("We definitely have a user ", user)
+	}
+
+	// we could provide a default user
+	user := userOpt.GetOrElse(User{"default_id", "Default Name"})
+	fmt.Println(user)
+
+	// we can get the user if present or get zero value
+	user = userOpt.GetOrZero()
+	fmt.Println(user)
+
+	//we can map the option to another type
 	nameOpt := opt.Map(func(t User) string {
-        return t.Name
-	},userOpt)
+		return t.Name
+	}, userOpt)
+	fmt.Println(nameOpt.GetOrElse("default_name"))
+
 }
 
 ```
