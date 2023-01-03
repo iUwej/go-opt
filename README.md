@@ -1,4 +1,4 @@
-# go-opt
+# go-opt . Optional values in golang.
 go-opt is an implementation of optional values in go.\
 Optional values can have a number of use cases such as:
 - Providing optional parameters to functions
