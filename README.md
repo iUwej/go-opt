@@ -49,9 +49,9 @@ package main
 
 import "github.com/iUwej/go-opt"
 
-intOpt := opt.None[int]
-strOpt := opt.None[string]
-custOpt := opt.None[CustomType]
+intOpt := opt.None[int]()
+strOpt := opt.None[string]()
+custOpt := opt.None[CustomType]()
 ```
 
 ## Example
