@@ -25,12 +25,36 @@ type Option[T any] interface {
 }
 ```
 
-This module provides two implementation of the Option[T] interface
+This module provides two implementations of the Option[T] interface
 - Some[T]
 - None[T]
 
-## Examples
+## Installation
+`go get github.com/iUwej/go-opt`
 
+## Usage
+1) To create an option with a value present, use the Some function.
+```go
+package main
+
+import "github.com/iUwej/go-opt"
+
+intOpt := opt.Some(5) // creates an int option
+strOpt := opt.Some("some string")
+custOpt := opt.Some(CustomType())
+```
+2) To create an option with a value absent, use the None function.
+```go
+package main
+
+import "github.com/iUwej/go-opt"
+
+intOpt := opt.None[int]
+strOpt := opt.None[string]
+custOpt := opt.None[CustomType]
+```
+
+## Example
 ```go
 package main
 
